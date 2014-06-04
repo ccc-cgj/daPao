@@ -1,18 +1,20 @@
 int x=int(random(1, 6)), y=1;
-int pao;
+int pao,z=1;
 ArrayList<pao> paoMen;
+IntList xMen;
+IntList yMen;
+int MouseY;
 class pao {
   float paoX, paoY, paoW, paoH, paoV;
   pao() {
     paoW=50;
     paoH=50;
-    paoV=50;
+    paoV=20;
   }
   void da() {
-    fill(0);
+    fill(0,128);
     textSize(100);
     text("PAO",paoX, paoY-50);
-    paoY-=paoV;
   }
 }
 void setup() {
@@ -20,6 +22,10 @@ void setup() {
   if (frame!=null)frame.setResizable(true);
   background(255);
   paoMen=new ArrayList<pao>();
+  xMen=new IntList();
+  yMen=new IntList();
+  xMen.append(x);
+  yMen.append(y);
 }
 
 void draw() {
@@ -37,20 +43,25 @@ void draw() {
     text("Game Over", width/2, height/2-50);
     noLoop();
   }
-  println(x);
+  if(z>1){
+    if(paoMen.get(paoMen.size()-1).paoY>MouseY+100){
+      paoMen.get(paoMen.size()-1).paoY-=paoMen.get(paoMen.size()-1).paoV;
+      paoMen.get(paoMen.size()-1).da();
+    }
+  }
+  /* cheating mode
+  println(xMen);
+  println(yMen);
+  */
 }
 
 void mouseClicked() {
-  paoMen.add(new pao());
-  paoMen.get(paoMen.size()-1).paoX=mouseX;
-  paoMen.get(paoMen.size()-1).paoY=height;
-  paoMen.get(paoMen.size()-1).da();
   if (pao==x && (mouseY/(height/5))+1==y) {
     background(255);
-    fill(0);
+    fill(255,0,0);
     textAlign(CENTER);
-    textSize(100);
-    text("HIT", width/2, height/2-50);
+    textSize(200);
+    text("HIT", width/2, height/2-100);
     noLoop();
   }
   else {
@@ -58,8 +69,18 @@ void mouseClicked() {
     fill(0);
     textAlign(CENTER);
     textSize(100);
-    text("kSBBBG•k", width/2, height/2-50);
+    text("missed", width/2, height/2-50);
   }
+  paoMen.add(new pao());
+  paoMen.get(paoMen.size()-1).paoX=mouseX;
+  paoMen.get(paoMen.size()-1).paoY=height;
+  fill(0);
+  rectMode(CENTER);
+  rect((xMen.get(xMen.size()-1))*width/5-width/10,(yMen.get(yMen.size()-1))*height/5-height/10,width/5-50,height/5-50);
   x=int(random(1, 6));
   y++;
+  z++;
+  xMen.append(x);
+  yMen.append(y);
+  MouseY=mouseY;
 }
