@@ -4,6 +4,8 @@ ArrayList<pao> paoMen;
 IntList xMen;
 IntList yMen;
 int MouseY;
+float paoSe;
+color c=color(random(255),random(255),random(255));
 class pao {
   float paoX, paoY, paoW, paoH, paoV;
   pao() {
@@ -12,9 +14,9 @@ class pao {
     paoV=20;
   }
   void da() {
-    fill(0,128);
+    fill(random(255),random(255),random(255),paoSe);
     textSize(100);
-    text("PAO",paoX, paoY-50);
+    text("flap",paoX, paoY-50);
   }
 }
 void setup() {
@@ -26,6 +28,7 @@ void setup() {
   yMen=new IntList();
   xMen.append(x);
   yMen.append(y);
+  paoSe=0;
 }
 
 void draw() {
@@ -40,7 +43,7 @@ void draw() {
     fill(0);
     textAlign(CENTER);
     textSize(100);
-    text("Game Over", width/2, height/2-50);
+    text("-=FLAP=-", width/2, height/2-50);
     noLoop();
   }
   if(z>1){
@@ -49,6 +52,7 @@ void draw() {
       paoMen.get(paoMen.size()-1).da();
     }
   }
+  paoSe+=255*20/( height-MouseY);
   /* cheating mode
   println(xMen);
   println(yMen);
@@ -61,7 +65,7 @@ void mouseClicked() {
     fill(255,0,0);
     textAlign(CENTER);
     textSize(200);
-    text("HIT", width/2, height/2-100);
+    text("-=FLAP=-", width/2, height/2-100);
     noLoop();
   }
   else {
@@ -69,12 +73,13 @@ void mouseClicked() {
     fill(0);
     textAlign(CENTER);
     textSize(100);
-    text("missed", width/2, height/2-50);
+    text("flap", width/2, height/2-50);
   }
   paoMen.add(new pao());
   paoMen.get(paoMen.size()-1).paoX=mouseX;
   paoMen.get(paoMen.size()-1).paoY=height;
-  fill(0);
+  fill(c);
+  noStroke();
   rectMode(CENTER);
   rect((xMen.get(xMen.size()-1))*width/5-width/10,(yMen.get(yMen.size()-1))*height/5-height/10,width/5-50,height/5-50);
   x=int(random(1, 6));
@@ -83,4 +88,5 @@ void mouseClicked() {
   xMen.append(x);
   yMen.append(y);
   MouseY=mouseY;
+  paoSe=0;
 }
